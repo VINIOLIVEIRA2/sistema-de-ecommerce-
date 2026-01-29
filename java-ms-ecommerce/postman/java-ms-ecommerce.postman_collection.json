@@ -1,0 +1,125 @@
+﻿{
+  "info": {
+    "name": "Java MS E-commerce (Gateway)",
+    "_postman_id": "9e0c8a6b-8f9a-4f8d-9a17-2b5f7d6e1c11",
+    "description": "Requests via API Gateway (http://localhost:8080). Uses X-Request-Id to correlate logs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Request-Id", "value": "demo-123" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/orders",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "orders"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"c1\",\n  \"items\": [\n    {\"sku\": \"SKU-1\", \"quantity\": 2},\n    {\"sku\": \"SKU-2\", \"quantity\": 1}\n  ]\n}\n"
+        }
+      }
+    },
+    {
+      "name": "Get Order (set your UUID)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-Request-Id", "value": "demo-123" }],
+        "url": {
+          "raw": "http://localhost:8080/api/orders/{{orderId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "orders", "{{orderId}}"]
+        }
+      }
+    },
+    {
+      "name": "Reprocess Order Payment (optional endpoint)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "X-Request-Id", "value": "demo-123" }],
+        "url": {
+          "raw": "http://localhost:8080/api/orders/{{orderId}}/process",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "orders", "{{orderId}}", "process"]
+        }
+      }
+    },
+    {
+      "name": "Reserve Inventory (direct)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Request-Id", "value": "demo-123" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/inventory/inventory/reserve",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "inventory", "inventory", "reserve"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"00000000-0000-0000-0000-000000000001\",\n  \"items\": [{\"sku\":\"SKU-1\",\"quantity\":1}]\n}\n"
+        }
+      }
+    },
+    {
+      "name": "Release Inventory (direct)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Request-Id", "value": "demo-123" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/inventory/inventory/release",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "inventory", "inventory", "release"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"00000000-0000-0000-0000-000000000001\"\n}\n"
+        }
+      }
+    },
+    {
+      "name": "Pay (direct)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Request-Id", "value": "demo-123" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/payments/payments",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "payments", "payments"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"00000000-0000-0000-0000-000000000001\",\n  \"amount\": 10.00\n}\n"
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "orderId", "value": "PUT-ORDER-UUID-HERE" }
+  ]
+}

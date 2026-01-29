@@ -1,0 +1,45 @@
+﻿server:
+  port: 8081
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders
+    username: orders
+    password: orders
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+clients:
+  inventory:
+    base-url: http://localhost:8083
+  payment:
+    base-url: http://localhost:8082
+
+resilience4j:
+  retry:
+    instances:
+      payment:
+        max-attempts: 3
+        wait-duration: 300ms
+        retry-exceptions:
+          - java.lang.RuntimeException
+
+  circuitbreaker:
+    instances:
+      payment:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{requestId}] %logger{36} - %msg%n"

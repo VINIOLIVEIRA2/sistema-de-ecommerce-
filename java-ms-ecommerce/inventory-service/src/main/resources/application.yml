@@ -1,0 +1,21 @@
+﻿server:
+  port: 8083
+
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory
+    username: inventory
+    password: inventory
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{requestId}] %logger{36} - %msg%n"

@@ -1,0 +1,30 @@
+### Criar pedido
+POST http://localhost:8080/api/orders
+Content-Type: application/json
+X-Request-Id: demo-123
+
+{
+  "customerId": "c1",
+  "items": [
+    { "sku": "SKU-1", "quantity": 2 },
+    { "sku": "SKU-2", "quantity": 1 }
+  ]
+}
+
+###
+
+### Buscar pedido (cole o UUID retornado)
+GET http://localhost:8080/api/orders/{{orderId}}
+X-Request-Id: demo-123
+
+###
+
+### Reprocessar pagamento
+POST http://localhost:8080/api/orders/{{orderId}}/process
+X-Request-Id: demo-123
+
+###
+
+### Ver estoque SKU-1
+GET http://localhost:8080/api/inventory/stock/SKU-1
+X-Request-Id: demo-123
